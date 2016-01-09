@@ -21,7 +21,10 @@ public:
    }
 
    void onNotify(const Unit& unit, const Event& event) {
-      printf("GraphicsObserver onNotify for unit %s of the event '%s'\n", (const char*) unit, (const char*) event);
+
+      if (event == Events::CAR_EXPLODE) {
+         printf("GraphicsObserver onNotify for unit %s of the event '%s'\n", (const char*) unit, (const char*) event);
+      }
    }
 };
 

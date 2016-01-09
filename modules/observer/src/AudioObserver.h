@@ -25,7 +25,16 @@ public:
    }
 
    void onNotify(const Unit& unit, const Event& event) {
-      printf("AudioObserver onNotify for unit %s of the event '%s'\n", (const char*) unit, (const char*) event);
+
+      if (event == Events::CAR_EXPLODE) {
+         printf("AudioObserver play the sound of a car explosion!");
+      } else if (event == Events::CAR_HIT) {
+         printf("AudioObserver play the sound of a car hit!");
+      } else {
+         printf("AudioObserver play the generic sound. For unit %s of the event '%s'\n", (const char*) unit,
+               (const char*) event);
+      }
+
    }
 };
 

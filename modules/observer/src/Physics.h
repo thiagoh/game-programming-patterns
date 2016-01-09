@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <stdlib.h>
 
 #include "Subject.h"
 #include "Unit.h"
@@ -30,7 +31,23 @@ public:
    void updateUnit(Unit& unit) {
 
       printf("Physics update unit, %s\n", unit.id().c_str());
-      _subject->notify(unit, Events::FALL);
+
+      Event* event = 0;
+      double r = rand() / RAND_MAX;
+
+      if (r < 0.3) {
+         event = &Events::CAR_HIT;
+
+      } else if (r > 0.3 && r < 0.6) {
+
+         event = &Events::CAR_EXPLODE;
+
+      } else {
+
+         event = &Events::CAR_FALL;
+      }
+      _subject->notify(unit, *event);
+
       printf("All observers were advised properly\n\n");
    }
    Subject* subject() {

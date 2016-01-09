@@ -49,8 +49,10 @@ private:
 };
 
 namespace Events {
-Event FALL("fall");
-Event HIT("hit");
+Event CAR_FALL("car-fall");
+Event CAR_HIT("car-hit");
+Event CAR_EXPLODE("car-explode");
+Event MAN_HIT("man-hit");
 }
 
 }
