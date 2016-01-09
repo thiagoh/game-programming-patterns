@@ -27,7 +27,9 @@ public:
 
    }
 
-   virtual void onNotify(const Unit& unit, const Event& event) = 0;
+   void onNotify(const Unit& unit, const Event& event) {
+      printf("Observer onNotify");
+   }
 };
 
 } /* namespace thiagoh */

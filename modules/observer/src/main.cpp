@@ -30,9 +30,11 @@ int main(int argc, char **argv) {
 
    AudioObserver audioObserver;
    GraphicsObserver graphicsObserver;
+   Observer baseObserver;
 
    physics.subject()->addObserver(&audioObserver);
    physics.subject()->addObserver(&graphicsObserver);
+   physics.subject()->addObserver(&baseObserver);
 
    for (unsigned int i = 0; i < 10; i++) {
       physics.updateUnit(unit);
