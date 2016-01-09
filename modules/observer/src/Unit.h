@@ -17,7 +17,6 @@ public:
 
    Unit(std::string id) :
          _id(id) {
-
    }
 
    virtual ~Unit() {

@@ -9,22 +9,23 @@
 
 #include "Physics.h"
 #include "Subject.h"
+#include "Unit.h"
 
 using com::thiagoh::Physics;
+using com::thiagoh::Subject;
+using com::thiagoh::Unit;
 
 int main(int argc, char **argv) {
 
-	printf("\n BEGIN OF PROGRAM\n");
+   printf("\n BEGIN OF PROGRAM\n");
 
-	Physics physics;
+   Physics physics;
+   Unit unit("foo");
 
-	while(true) {
+   for (unsigned int i = 0; i < 100; i++) {
+      physics.updateUnit(unit);
+   }
 
-	   physics.updateUnit(0);
-	}
-
-	printf("\n\n\n\n END OF PROGRAM\n");
+   printf("\n\n\n\n END OF PROGRAM\n");
 }
-
-
 

@@ -27,8 +27,8 @@ public:
    virtual ~Physics() {
       delete _subject;
    }
-   void updateUnit(Unit* unit) {
-      printf("Physics update unit, %s", unit->id().c_str());
+   void updateUnit(Unit& unit) {
+      printf("Physics update unit, %s\n", unit.id().c_str());
    }
 
 private:
