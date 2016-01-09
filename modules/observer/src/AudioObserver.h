@@ -25,7 +25,7 @@ public:
    }
 
    void onNotify(const Unit& unit, const Event& event) {
-      printf("AudioObserver onNotify for unit %s of the event '%s'\n", unit.id().c_str(), event.type().c_str());
+      printf("AudioObserver onNotify for unit %s of the event '%s'\n", (const char*) unit, (const char*) event);
    }
 };
 

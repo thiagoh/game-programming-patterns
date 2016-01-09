@@ -28,7 +28,7 @@ public:
    }
 
    virtual void onNotify(const Unit& unit, const Event& event) {
-      printf("Observer onNotify\n");
+      printf("Base Observer onNotify for unit %s of the event '%s'\n", (const char*) unit, (const char*) event);
    }
 };
 

@@ -45,26 +45,25 @@ public:
          return false;
       }
 
-      if (_head->_observer == observer) {
+      ObserverNode* cur = _head;
+
+      if (cur->_observer == observer) {
          _head = _head->_next;
-//         _head->_next = nullptr;
-         delete _head->_next;
+         delete cur;
          return true;
       }
 
-      ObserverNode* node = _head;
+      while (cur->_next != NULL) {
 
-      while (node->_next != NULL) {
+         ObserverNode* next = cur->_next;
 
-         if (node->_next->_observer == observer) {
-            ObserverNode* next = node->_next;
-            node->_next = next->_next;
-//            next->_next = nullptr;
+         if (next->_observer == observer) {
+            cur->_next = next->_next;
             delete next;
             return true;
          }
 
-         node = node->_next;
+         cur = next;
       }
 
       return false;

@@ -36,6 +36,14 @@ public:
       return !((*this) == rhs);
    }
 
+   operator std::string() const {
+      return _type;
+   }
+
+   operator const char*() const {
+      return _type.c_str();
+   }
+
 private:
    const std::string _type;
 };

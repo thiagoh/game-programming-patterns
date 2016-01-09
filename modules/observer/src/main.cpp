@@ -23,7 +23,7 @@ using com::thiagoh::GraphicsObserver;
 
 int main(int argc, char **argv) {
 
-   printf("\n BEGIN OF PROGRAM\n");
+   printf("\n\nBEGIN OF PROGRAM\n\n");
 
    Physics physics;
    Unit unit("foo");
@@ -36,10 +36,15 @@ int main(int argc, char **argv) {
    physics.subject()->addObserver(&graphicsObserver);
    physics.subject()->addObserver(&baseObserver);
 
-   for (unsigned int i = 0; i < 10; i++) {
+   for (unsigned int i = 0; i < 6; i++) {
       physics.updateUnit(unit);
+
+      if (i == 3) {
+         physics.subject()->removeObserver(&baseObserver);
+         printf("#INFO: Base Observer removed\n");
+      }
    }
 
-   printf("\n\n\n\n END OF PROGRAM\n");
+   printf("\n\nEND OF PROGRAM\n");
 }
 

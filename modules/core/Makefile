@@ -31,7 +31,7 @@ define make-goal
 $1/%.o: $(patsubst build/%,src/%,$1)/%.c
 	@echo $1
 	@echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
-	@g++ -std=c99 -std=gnu99 -O $(INCLUDES) -Wall -fPIC -o $$@ -c $$<
+	@g++ -std=c99 -std=gnu99 -O $(INCLUDES) -Wall -fPIC -o $$@ -c $$< 
 endef
 
 $(foreach bdir,$(BUILD_DIR),$(eval $(call make-goal,$(bdir))))

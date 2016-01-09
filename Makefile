@@ -6,7 +6,7 @@ MODULES = modules/core modules/observer
 .PHONY: all 
 
 all:
-	for dir in $(MODULES); do \
+	@for dir in $(MODULES); do \
       $(MAKE) -C $$dir; \
     done
 	
