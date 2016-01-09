@@ -30,9 +30,11 @@ public:
          printf("AudioObserver play the sound of a car explosion!");
       } else if (event == Events::CAR_HIT) {
          printf("AudioObserver play the sound of a car hit!");
+      } else if (event == Events::MAN_HIT) {
+         printf("AudioObserver play the sound of a man hit!");
       } else {
-         printf("AudioObserver play the generic sound. For unit %s of the event '%s'\n", (const char*) unit,
-               (const char*) event);
+         printf("#WARN: AudioObserver i'm not interested on this event. Discard it! Unit %s of the event '%s'\n",
+               (const char*) unit, (const char*) event);
       }
 
    }
