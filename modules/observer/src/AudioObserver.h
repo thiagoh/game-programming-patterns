@@ -9,6 +9,8 @@
 #define AUDIOOBSERVER_H_
 
 #include <iostream>
+#include "Unit.h"
+#include "Event.h"
 
 namespace com {
 namespace thiagoh {
@@ -24,8 +26,8 @@ public:
 
    }
 
-   void onNotify(const Unit& unit, Event event) {
-      printf("AudioObserver onNotify");
+   void onNotify(const Unit& unit, Event& event) {
+      printf("AudioObserver onNotify for unit %s of the event '%s'");//, unit.id().c_str(), event.name()
    }
 };
 

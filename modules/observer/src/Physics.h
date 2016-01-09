@@ -29,6 +29,10 @@ public:
    }
    void updateUnit(Unit& unit) {
       printf("Physics update unit, %s\n", unit.id().c_str());
+      _subject->notify(unit, Events::FALL);
+   }
+   Subject* subject() {
+      return _subject;
    }
 
 private:

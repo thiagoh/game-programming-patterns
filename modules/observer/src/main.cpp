@@ -10,10 +10,12 @@
 #include "Physics.h"
 #include "Subject.h"
 #include "Unit.h"
+#include "Observer.h"
 
 using com::thiagoh::Physics;
 using com::thiagoh::Subject;
 using com::thiagoh::Unit;
+using com::thiagoh::Observer;
 
 int main(int argc, char **argv) {
 
@@ -21,6 +23,10 @@ int main(int argc, char **argv) {
 
    Physics physics;
    Unit unit("foo");
+
+   Observer audioObserver;
+
+   physics.subject()->addObserver(&audioObserver);
 
    for (unsigned int i = 0; i < 100; i++) {
       physics.updateUnit(unit);

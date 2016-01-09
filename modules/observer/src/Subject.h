@@ -65,7 +65,7 @@ public:
 
 protected:
 
-   void notify(const Unit& unit, Event event) {
+   void notify(const Unit& unit, Event& event) {
 
       ObserverNode* node = _head;
 
