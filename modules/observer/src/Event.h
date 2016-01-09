@@ -24,7 +24,7 @@ public:
 
    }
 
-   std::string type() {
+   std::string type() const {
       return _type;
    }
 
@@ -41,8 +41,8 @@ private:
 };
 
 namespace Events {
-const Event FALL("fall");
-const Event HIT("hit");
+Event FALL("fall");
+Event HIT("hit");
 }
 
 }

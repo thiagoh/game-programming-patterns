@@ -8,6 +8,8 @@
 #ifndef UNIT_H_
 #define UNIT_H_
 
+#include <string>
+
 namespace com {
 namespace thiagoh {
 
@@ -23,7 +25,7 @@ public:
 
    }
 
-   std::string id() {
+   std::string id() const {
       return _id;
    }
 
@@ -34,7 +36,6 @@ public:
    operator const char*() const {
       return _id.c_str();
    }
-
 
 private:
    std::string _id;

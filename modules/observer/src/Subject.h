@@ -28,8 +28,13 @@ public:
    }
 
    void addObserver(Observer* observer) {
-      _head->_next = _head;
-      _head = new ObserverNode(observer);
+
+      if (_head == NULL) {
+         _head = new ObserverNode(observer);
+      } else {
+         _head->_next = _head;
+         _head = new ObserverNode(observer);
+      }
    }
 
    bool removeObserver(Observer* observer) {
@@ -63,9 +68,7 @@ public:
       return false;
    }
 
-protected:
-
-   void notify(const Unit& unit, Event& event) {
+   void notify(const Unit& unit, const Event& event) {
 
       ObserverNode* node = _head;
 
@@ -74,6 +77,8 @@ protected:
          node = node->_next;
       }
    }
+
+protected:
 
 private:
 

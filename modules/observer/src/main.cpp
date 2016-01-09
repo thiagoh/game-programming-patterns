@@ -11,11 +11,15 @@
 #include "Subject.h"
 #include "Unit.h"
 #include "Observer.h"
+#include "AudioObserver.h"
+#include "GraphicsObserver.h"
 
 using com::thiagoh::Physics;
 using com::thiagoh::Subject;
 using com::thiagoh::Unit;
 using com::thiagoh::Observer;
+using com::thiagoh::AudioObserver;
+using com::thiagoh::GraphicsObserver;
 
 int main(int argc, char **argv) {
 
@@ -24,11 +28,13 @@ int main(int argc, char **argv) {
    Physics physics;
    Unit unit("foo");
 
-   Observer audioObserver;
+   AudioObserver audioObserver;
+   GraphicsObserver graphicsObserver;
 
    physics.subject()->addObserver(&audioObserver);
+   physics.subject()->addObserver(&graphicsObserver);
 
-   for (unsigned int i = 0; i < 100; i++) {
+   for (unsigned int i = 0; i < 10; i++) {
       physics.updateUnit(unit);
    }
 
