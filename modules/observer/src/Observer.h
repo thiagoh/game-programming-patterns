@@ -27,8 +27,8 @@ public:
 
    }
 
-   void onNotify(const Unit& unit, const Event& event) {
-      printf("Observer onNotify");
+   virtual void onNotify(const Unit& unit, const Event& event) {
+      printf("Observer onNotify\n");
    }
 };
 

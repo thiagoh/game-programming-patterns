@@ -29,11 +29,13 @@ public:
 
    void addObserver(Observer* observer) {
 
+      ObserverNode* node = new ObserverNode(observer);
+
       if (_head == NULL) {
-         _head = new ObserverNode(observer);
+         _head = node;
       } else {
-         _head->_next = _head;
-         _head = new ObserverNode(observer);
+         node->_next = _head;
+         _head = node;
       }
    }
 
