@@ -27,6 +27,11 @@ public:
       return _name;
    }
 
+   static Subject& base() {
+      static Subject _base("Base subject");
+      return _base;
+   }
+
    void addObserver(Observer* observer) {
 
       ObserverNode* node = new ObserverNode(observer);
@@ -71,11 +76,18 @@ public:
 
    void notify(const Unit& unit, const Event& event) {
 
+      printf("------------------------------------------------\n");
+      printf("Start of Subject notify '%s'\n", _name.c_str());
+
       ObserverNode* node = _head;
 
       while (node != NULL) {
          node->_observer->onNotify(unit, event);
          node = node->_next;
+      }
+
+      if (this != &base()) {
+         base().notify(unit, event);
       }
    }
 

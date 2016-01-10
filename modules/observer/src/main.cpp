@@ -32,6 +32,8 @@ int main(int argc, char **argv) {
    GraphicsObserver graphicsObserver;
    Observer baseObserver;
 
+   Subject::base().addObserver(&audioObserver);
+
    physics.subject()->addObserver(&audioObserver);
    physics.subject()->addObserver(&graphicsObserver);
    physics.subject()->addObserver(&baseObserver);
