@@ -1,7 +1,7 @@
 
 modname = game-programming-patterns
 
-MODULES = modules/core modules/observer
+MODULES = modules/core modules/observer modules/tests
 
 .PHONY: all 
 
