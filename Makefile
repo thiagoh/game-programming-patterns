@@ -22,6 +22,15 @@ MODULES_DIR = modules
 
 MODULES = core observer tests
 
+##
+## https://gcc.gnu.org/onlinedocs/gcc-3.0/gcc_3.html#SEC11
+##
+## You can request many specific warnings with options beginning `-W', 
+## for example `-Wimplicit' to request warnings on implicit declarations. 
+## Each of these specific warning options also has a negative form
+## beginning `-Wno-' to turn off warnings; for example, `-Wno-implicit'. 
+## This manual lists only one of the two forms, whichever is not the default.
+##
 CXX_FLAGS += -O3 -g -std=c++0x -pg -D_DEBUG -W -Wall -Werror -Wno-unused
 
 print-vars:
