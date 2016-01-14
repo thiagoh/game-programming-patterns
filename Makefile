@@ -22,16 +22,10 @@ MODULES_DIR = modules
 
 MODULES = core observer tests
 
-CXX_FLAGS += -O3 -g -std=c++0x -pg -D_DEBUG -W -Wall -Werror -Werror=unused-parameter
+CXX_FLAGS += -O3 -g -std=c++0x -pg -D_DEBUG -W -Wall -Werror -Wno-unused
 
-define make-objects
-$1/%.o: $(patsubst build/%,src/%,$1)/%.c
-	@echo $1
-	@echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
-	@g++ $(CXX_FLAGS) -O $(INCLUDES) -fPIC -o $$@ -c $$<
-endef
-
-$(foreach bdir, $(BUILD_DIR), $(eval $(call make-objects,$(bdir))))
+print-vars:
+	@echo "CXX_FLAGS is $(CXX_FLAGS)"
 
 define make-mod
 
@@ -46,14 +40,14 @@ $(eval $@INCLUDES := $(addprefix -I, $(MODULES_DIR)/$1/src))
 $(addprefix $1, -checkdirs):
 	@mkdir -p $($@BUILD_DIR)
 
-$($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.c
+$($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.c $(addprefix $1, -checkdirs)
 	@echo "Compiling $1"
 	@echo "Compiling $$@"
 	@echo "Compiling $$<"
 	@echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
 	@g++ $(CXX_FLAGS) -O $($@INCLUDES) -fPIC -o $$@ -c $$<
 
-$($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.cpp
+$($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.cpp $(addprefix $1, -checkdirs)
 	@echo "Compiling $1"
 	@echo "Compiling $$@"
 	@echo "Compiling $$<"
@@ -63,7 +57,7 @@ $($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.cpp
 $(addprefix $1, -build): $($@OBJ)
 	@echo "Building the $1 with includes $($@INCLUDES) and objects $($@OBJ)"
 ifneq ($(strip $$($@OBJ)),)
-	@g++ $(CXX_FLAGS) $($@INCLUDES) -o $($@BUILD_DIR) $($@OBJ)
+	@g++ $(CXX_FLAGS) $($@INCLUDES) -o $($@BUILD_DIR)/$1 $($@OBJ)
 endif
 	@echo "Success! All done. Module $1 built successfully"
 
