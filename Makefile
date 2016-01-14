@@ -41,17 +41,13 @@ $(addprefix $1, -checkdirs):
 	@mkdir -p $($@BUILD_DIR)
 
 $($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.c $(addprefix $1, -checkdirs)
-	@echo "Compiling $1"
-	@echo "Compiling $$@"
-	@echo "Compiling $$<"
-	@echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
+	@echo "Compiling $1 dependency $$< into $$@"
+	@#echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
 	@g++ $(CXX_FLAGS) -O $($@INCLUDES) -fPIC -o $$@ -c $$<
 
 $($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.cpp $(addprefix $1, -checkdirs)
-	@echo "Compiling $1"
-	@echo "Compiling $$@"
-	@echo "Compiling $$<"
-	@echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
+	@echo "Compiling $1 dependency $$< into $$@"
+	@#echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
 	@g++ $(CXX_FLAGS) -O $($@INCLUDES) -fPIC -o $$@ -c $$<
 
 $(addprefix $1, -build): $($@OBJ)
