@@ -5,17 +5,16 @@
  *      Author: thiagoh
  */
 
-#include "Unit.h"
-#include "State.h"
-#include "../../state/src/StandingState.h"
 
-#include <string>
+#include <StandingState.h>
+#include <Unit.h>
 
 using com::thiagoh::Unit;
+using com::thiagoh::StandingState;
 
 Unit::Unit(std::string id) :
 		_id(id), state(0) {
-	this->state = new StandingState();
+	//this->state = new StandingState();
 }
 
 Unit::~Unit() {

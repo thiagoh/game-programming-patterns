@@ -6,9 +6,8 @@
  */
 
 #include <stdio.h>
+#include <Unit.h>
 #include <string>
-
-#include "../../core/src/Unit.h"
 
 using com::thiagoh::Unit;
 

@@ -8,14 +8,15 @@
 #ifndef UNIT_H_
 #define UNIT_H_
 
-#include "Input.h"
-
+#include <Input.h>
+#include <State.h>
 #include <string>
 
 namespace com {
 namespace thiagoh {
 
 class State;
+
 class Unit {
 
 public:
