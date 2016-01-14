@@ -19,7 +19,8 @@ all: checkdirs $(OBJ)
 	@#echo $(INCLUDES)
 	@#sudo apxs -i -a -l cryptoc -l ssl -l crypto -Wc,-Wall -I . -n $(modname) -c src/core/mod_token_auth.c $(OBJ)
 	@echo "Building the $(modname))..."
-	@sudo g++ -g -Wall $(INCLUDES) -o $(BUILD_DIR)/$(modname) $(OBJ)
+	@#sudo g++ -g -Wall $(INCLUDES) -o $(BUILD_DIR)/$(modname) $(OBJ)
+	@g++ -g -Wall $(INCLUDES) -o $(BUILD_DIR)/$(modname) $(OBJ)
 	@echo "Success! All done. Module $(modname) built successfully"
 
 checkdirs: $(BUILD_DIR)

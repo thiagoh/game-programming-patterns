@@ -4,6 +4,8 @@ modname = observer
 SRC_DIR   := src/
 BUILD_DIR := build/
 
+GPP_FLAGS = -W -Wall -Werror
+
 SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.c)) $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJ       := $(patsubst src/%.c,build/%.o,$(SRC))
 
@@ -19,7 +21,8 @@ all: checkdirs $(OBJ)
 	@#echo $(INCLUDES)
 	@#sudo apxs -i -a -l cryptoc -l ssl -l crypto -Wc,-Wall -I . -n $(modname) -c src/core/mod_token_auth.c $(OBJ)
 	@echo "Building the $(modname))..."
-	@sudo g++ -g -Wall $(INCLUDES) -o $(BUILD_DIR)/$(modname) $(OBJ)
+	@#sudo g++ -g $(GPP_FLAGS) $(INCLUDES) -o $(BUILD_DIR)/$(modname) $(OBJ)
+	@g++ -g $(GPP_FLAGS) $(INCLUDES) -o $(BUILD_DIR)/$(modname) $(OBJ)
 	@echo "Success! All done. Module $(modname) built successfully"
 
 checkdirs: $(BUILD_DIR)
