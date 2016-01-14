@@ -7,7 +7,9 @@
 
 #include <stdio.h>
 
-#include "../../core/src/Unit.h"
+#include <Event.h>
+#include <Unit.h>
+
 #include "AudioObserver.h"
 #include "GraphicsObserver.h"
 #include "Physics.h"

@@ -12,9 +12,9 @@
 #include <stdlib.h>
 #include <ctime>
 #include <string>
+#include <Event.h>
+#include <Unit.h>
 
-#include "../../core/src/Event.h"
-#include "../../core/src/Unit.h"
 #include "Subject.h"
 
 namespace com {

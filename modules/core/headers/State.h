@@ -8,25 +8,25 @@
 #ifndef STATE_H_
 #define STATE_H_
 
-#include "../../core/src/Input.h"
-#include "../../core/src/Unit.h"
+#include "Input.h"
+#include "Unit.h"
 
 namespace com {
 namespace thiagoh {
 
+class Unit;
+
 class State {
 
 public:
-	State::State() {
-
+	State() {
+	}
+	virtual ~State() {
 	}
 
-	virtual State::~State() {
-	}
+	virtual State* handleInput(Unit& unit, Input input) = 0;
+	virtual void enter(Unit& unit) = 0;
 
-	State* handleInput(Unit& unit, Input input) {
-
-	}
 };
 
 } /* namespace thiagoh */

@@ -10,8 +10,8 @@
 
 #include <stdio.h>
 
-#include "../../core/src/Event.h"
-#include "../../core/src/Unit.h"
+#include <Event.h>
+#include <Unit.h>
 
 namespace com {
 namespace thiagoh {

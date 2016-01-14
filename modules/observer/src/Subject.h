@@ -11,8 +11,8 @@
 #include <cstdio>
 #include <string>
 
-#include "../../core/src/Event.h"
-#include "../../core/src/Unit.h"
+#include <Event.h>
+#include <Unit.h>
 #include "Observer.h"
 #include "ObserverNode.h"
 

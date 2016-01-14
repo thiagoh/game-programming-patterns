@@ -12,7 +12,7 @@ namespace com {
 namespace thiagoh {
 
 enum Input {
-	BUTTON_X, BUTTON_Y, BUTTON_A, BUTTON_B
+	BUTTON_UP, BUTTON_RIGHT, BUTTON_DOWN, BUTTON_LEFT, BUTTON_X, BUTTON_Y, BUTTON_A, BUTTON_B
 };
 
 } /* namespace thiagoh */

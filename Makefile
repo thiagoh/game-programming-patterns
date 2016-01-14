@@ -20,7 +20,13 @@ modname = game-programming-patterns
 
 MODULES_DIR = modules
 
+GLOBAL_INCLUDE_MODULES = core
+GLOBAL_MODULE = core
+
+EXEC_MODULES = observer state tests
 MODULES = core observer state tests
+
+GLOBAL_INCLUDES := $(foreach _dir,$(GLOBAL_INCLUDE_MODULES),$(_dir))
 
 ##
 ## https://gcc.gnu.org/onlinedocs/gcc-3.0/gcc_3.html#SEC11
@@ -32,53 +38,82 @@ MODULES = core observer state tests
 ## This manual lists only one of the two forms, whichever is not the default.
 ##
 CXX_FLAGS += -O3 -g -std=c++0x -pg -D_DEBUG -W -Wall -Werror -Wno-unused
+CXX_FLAGS += -O 
 
 print-vars:
-	@echo "CXX_FLAGS is $(CXX_FLAGS)"
+	@echo "CXX_FLAGS $(CXX_FLAGS)"
+	@echo "GLOBAL_INCLUDES $(GLOBAL_INCLUDES)"
 
 define make-mod
+
+$(eval $@_GLOBAL_SRC_DIR := $(MODULES_DIR)/$(GLOBAL_MODULE)/src)
+$(eval $@_GLOBAL_BUILD_DIR := $(MODULES_DIR)/$(GLOBAL_MODULE)/build)
+
+$(eval $@_GLOBAL_SRC := $(foreach sdir, $($@_GLOBAL_MODULE), $(wildcard $(sdir)/*.c)) $(foreach sdir, $($@_GLOBAL_MODULE), $(wildcard $(sdir)/*.cpp)))
+$(eval $@_GLOBAL_OBJ := $(patsubst $($@_GLOBAL_SRC_DIR)/%.c, $($@_GLOBAL_BUILD_DIR)/%.o, $(patsubst $($@_GLOBAL_SRC_DIR)/%.cpp, $($@_GLOBAL_BUILD_DIR)/%.o, $($@_GLOBAL_SRC))))
+
 
 $(eval $@SRC_DIR := $(MODULES_DIR)/$1/src)
 $(eval $@BUILD_DIR := $(MODULES_DIR)/$1/build)
 
-$(eval $@SRC := $(foreach sdir,  $($@SRC_DIR), $(wildcard $(sdir)/*.c)) $(foreach sdir, $($@SRC_DIR), $(wildcard $(sdir)/*.cpp)))
-$(eval $@OBJ := $(patsubst $($@SRC_DIR)/%.c, $($@BUILD_DIR)/%.o, $(patsubst $($@SRC_DIR)/%.cpp, $($@BUILD_DIR)/%.o, $($@SRC))))
+$(eval $@_GLOBAL_MODULE := $(MODULES_DIR)/$(GLOBAL_MODULE)/src)
 
-$(eval $@INCLUDES := $(addprefix -I, $(MODULES_DIR)/$1/src))
+$(eval $@SRC := $(foreach sdir, $($@SRC_DIR), $(wildcard $(sdir)/*.c)) $(foreach sdir, $($@SRC_DIR), $(wildcard $(sdir)/*.cpp)))
+$(eval $@OBJ := $(patsubst $($@SRC_DIR)/%.c, $($@BUILD_DIR)/%.o, $(patsubst $($@SRC_DIR)/%.cpp, $($@BUILD_DIR)/%.o, $($@SRC))) $($@_GLOBAL_OBJ))
+
+$(eval $@INCLUDES := $(addprefix -I, $(MODULES_DIR)/$(GLOBAL_INCLUDES)/headers $(MODULES_DIR)/$1/headers))
 
 .PHONY: $(addprefix $1, -checkdirs)
 $(addprefix $1, -checkdirs):
 	@mkdir -p $($@BUILD_DIR)
 
+# Object targets
 $($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.c $(addprefix $1, -checkdirs)
 	@echo "Compiling $1 dependency $$< into $$@"
 	@#echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
 	@g++ $(CXX_FLAGS) -O $($@INCLUDES) -fPIC -o $$@ -c $$<
 
+# Object targets
 $($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.cpp $(addprefix $1, -checkdirs)
 	@echo "Compiling $1 dependency $$< into $$@"
 	@#echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
-	@g++ $(CXX_FLAGS) -O $($@INCLUDES) -fPIC -o $$@ -c $$<
+	@g++ $(CXX_FLAGS) $($@INCLUDES) -fPIC -o $$@ -c $$<
 	
-.PHONY: $(addprefix $1, -build)
-$(addprefix $1, -build): $($@OBJ)
+$(addprefix $1, -print-vars):
+	@echo "1" $1
+	@echo "($@SRC_DIR)" $($@SRC_DIR)
+	@echo "($@BUILD_DIR)" $($@BUILD_DIR)
+	@echo "($@SRC)" $($@SRC)
+	@echo "($@OBJ)" $($@OBJ)
+	@echo "($@_GLOBAL_SRC_DIR)" $($@_GLOBAL_SRC_DIR)
+	@echo "($@_GLOBAL_BUILD_DIR)" $($@_GLOBAL_BUILD_DIR)
+	@echo "($@_GLOBAL_SRC)" $($@_GLOBAL_SRC)
+	@echo "($@_GLOBAL_OBJ)" $($@_GLOBAL_OBJ)
+	@echo "($@INCLUDES)" $($@INCLUDES)
+
+ifneq (,$(findstring $1,$(EXEC_MODULES)))
+	
+.PHONY: $(addprefix $1, -build-exec)
+$(addprefix $1, -build-exec): $($@OBJ)
 	@echo "Building the $1 with includes $($@INCLUDES) and objects $($@OBJ)"
 ifneq ($(strip $$($@OBJ)),)
 	@g++ $(CXX_FLAGS) $($@INCLUDES) -o $($@BUILD_DIR)/$1 $($@OBJ)
-endif
+endif # ifneq ($(strip $$($@OBJ)),)
 	@echo "Success! All done. Module $1 built successfully"
+	
+endif # ifneq (,$(findstring $1,$(EXEC_MODULES)))
 
 .PHONY: $(addprefix $1, -clean)
 $(addprefix $1, -clean):
 	@echo "Cleaning build directory of $1 which is $($@BUILD_DIR)"
 	@rm -rf $($@BUILD_DIR) || true
 
-endef
+endef # define make-mod
 
 $(foreach mod,$(MODULES),$(eval $(call make-mod,$(mod))))
 
 .PHONY: all
-all: $(foreach mod, $(MODULES), $(mod)-checkdirs) $(foreach mod, $(MODULES), $(mod)-build)
+all: $(foreach mod, $(MODULES), $(mod)-checkdirs) $(foreach mod, $(EXEC_MODULES), $(mod)-build-exec)
 	@echo "Building the $(modname)..."
 	@echo "Success! All done. Module $(modname) built successfully"
 	

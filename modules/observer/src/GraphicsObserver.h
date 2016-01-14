@@ -8,10 +8,11 @@
 #ifndef OBSERVER_SRC_GRAPHICSOBSERVER_H_
 #define OBSERVER_SRC_GRAPHICSOBSERVER_H_
 
-#include <cstdio>
+#include <stdio.h>
 
-#include "../../core/src/Event.h"
-#include "../../core/src/Unit.h"
+#include <Event.h>
+#include <Unit.h>
+
 #include "Observer.h"
 
 namespace com {
