@@ -22,43 +22,54 @@ MODULES_DIR = modules
 
 MODULES = core observer tests
 
-GPP_FLAGS = -std=c99 -std=gnu99 -W -Wall -Werror
+CXX_FLAGS += -O3 -g -std=c++0x -pg -D_DEBUG -W -Wall -Werror -Werror=unused-parameter
 
 define make-objects
 $1/%.o: $(patsubst build/%,src/%,$1)/%.c
 	@echo $1
 	@echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
-	@g++ $(GPP_FLAGS) -O $(INCLUDES) -fPIC -o $$@ -c $$<
+	@g++ $(CXX_FLAGS) -O $(INCLUDES) -fPIC -o $$@ -c $$<
 endef
 
 $(foreach bdir, $(BUILD_DIR), $(eval $(call make-objects,$(bdir))))
 
 define make-mod
 
-$(eval $@SRC_DIR := $(MODULES_DIR)/$1/src/)
-$(eval $@BUILD_DIR := $(MODULES_DIR)/$1/build/)
+$(eval $@SRC_DIR := $(MODULES_DIR)/$1/src)
+$(eval $@BUILD_DIR := $(MODULES_DIR)/$1/build)
 
-$(eval SRC := $(foreach sdir,  $($@SRC_DIR), $(wildcard $(sdir)/*.c)) $(foreach sdir, $($@SRC_DIR), $(wildcard $(sdir)/*.cpp)))
-$(eval OBJ := $(patsubst src/%.c, build/%.o, $($@SRC)))
+$(eval $@SRC := $(foreach sdir,  $($@SRC_DIR), $(wildcard $(sdir)/*.c)) $(foreach sdir, $($@SRC_DIR), $(wildcard $(sdir)/*.cpp)))
+$(eval $@OBJ := $(patsubst $($@SRC_DIR)/%.c, $($@BUILD_DIR)/%.o, $(patsubst $($@SRC_DIR)/%.cpp, $($@BUILD_DIR)/%.o, $($@SRC))))
 
-$(eval $@INCLUDES := $(addprefix -I, $(MODULES_DIR)/$1/src/))
+$(eval $@INCLUDES := $(addprefix -I, $(MODULES_DIR)/$1/src))
 
 $(addprefix $1, -checkdirs):
 	@mkdir -p $($@BUILD_DIR)
 
-$1/build/%.o: $1/src/%.c $1/src/%.cpp
-	@echo $1
+$($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.c
+	@echo "Compiling $1"
+	@echo "Compiling $$@"
+	@echo "Compiling $$<"
 	@echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
-	@g++ $(GPP_FLAGS) -O $($@INCLUDES) -fPIC -o $$@ -c $$<
+	@g++ $(CXX_FLAGS) -O $($@INCLUDES) -fPIC -o $$@ -c $$<
 
-$(addprefix $1, -build):
-	@echo "Building the $1 with includes $($@INCLUDES)..."
-	@g++ -g $(GPP_FLAGS) $($@INCLUDES) -o $($@BUILD_DIR) $($@OBJ)
+$($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.cpp
+	@echo "Compiling $1"
+	@echo "Compiling $$@"
+	@echo "Compiling $$<"
+	@echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
+	@g++ $(CXX_FLAGS) -O $($@INCLUDES) -fPIC -o $$@ -c $$<
+
+$(addprefix $1, -build): $($@OBJ)
+	@echo "Building the $1 with includes $($@INCLUDES) and objects $($@OBJ)"
+ifneq ($(strip $$($@OBJ)),)
+	@g++ $(CXX_FLAGS) $($@INCLUDES) -o $($@BUILD_DIR) $($@OBJ)
+endif
 	@echo "Success! All done. Module $1 built successfully"
 
 $(addprefix $1, -clean):
 	@echo "Cleaning build directory of $1 which is $($@BUILD_DIR)"
-	@rm -rf $(MODULES_DIR)/$($@BUILD_DIR) || true
+	@rm -rf $($@BUILD_DIR) || true
 
 endef
 
