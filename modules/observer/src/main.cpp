@@ -4,15 +4,14 @@
  *  Created on: Jul 18, 2015
  *      Author: thiago
  */
-#include <stdio.h>
-#include <iostream>
 
-#include "Physics.h"
-#include "Subject.h"
-#include "Unit.h"
-#include "Observer.h"
+#include <stdio.h>
+
+#include "../../core/src/Unit.h"
 #include "AudioObserver.h"
 #include "GraphicsObserver.h"
+#include "Physics.h"
+#include "Subject.h"
 
 using com::thiagoh::Physics;
 using com::thiagoh::Subject;

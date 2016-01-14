@@ -8,9 +8,11 @@
 #ifndef AUDIOOBSERVER_H_
 #define AUDIOOBSERVER_H_
 
-#include <iostream>
-#include "Unit.h"
-#include "Event.h"
+#include <cstdio>
+
+#include "../../core/src/Event.h"
+#include "../../core/src/Unit.h"
+#include "Observer.h"
 
 namespace com {
 namespace thiagoh {

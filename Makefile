@@ -20,7 +20,7 @@ modname = game-programming-patterns
 
 MODULES_DIR = modules
 
-MODULES = core observer tests
+MODULES = core observer state tests
 
 ##
 ## https://gcc.gnu.org/onlinedocs/gcc-3.0/gcc_3.html#SEC11
@@ -46,6 +46,7 @@ $(eval $@OBJ := $(patsubst $($@SRC_DIR)/%.c, $($@BUILD_DIR)/%.o, $(patsubst $($@
 
 $(eval $@INCLUDES := $(addprefix -I, $(MODULES_DIR)/$1/src))
 
+.PHONY: $(addprefix $1, -checkdirs)
 $(addprefix $1, -checkdirs):
 	@mkdir -p $($@BUILD_DIR)
 
@@ -58,7 +59,8 @@ $($@BUILD_DIR)/%.o: $($@SRC_DIR)/%.cpp $(addprefix $1, -checkdirs)
 	@echo "Compiling $1 dependency $$< into $$@"
 	@#echo $1/%.o and $(patsubst build/%,src/%,$1)%.c
 	@g++ $(CXX_FLAGS) -O $($@INCLUDES) -fPIC -o $$@ -c $$<
-
+	
+.PHONY: $(addprefix $1, -build)
 $(addprefix $1, -build): $($@OBJ)
 	@echo "Building the $1 with includes $($@INCLUDES) and objects $($@OBJ)"
 ifneq ($(strip $$($@OBJ)),)
@@ -66,6 +68,7 @@ ifneq ($(strip $$($@OBJ)),)
 endif
 	@echo "Success! All done. Module $1 built successfully"
 
+.PHONY: $(addprefix $1, -clean)
 $(addprefix $1, -clean):
 	@echo "Cleaning build directory of $1 which is $($@BUILD_DIR)"
 	@rm -rf $($@BUILD_DIR) || true
@@ -74,6 +77,7 @@ endef
 
 $(foreach mod,$(MODULES),$(eval $(call make-mod,$(mod))))
 
+.PHONY: all
 all: $(foreach mod, $(MODULES), $(mod)-checkdirs) $(foreach mod, $(MODULES), $(mod)-build)
 	@echo "Building the $(modname)..."
 	@echo "Success! All done. Module $(modname) built successfully"

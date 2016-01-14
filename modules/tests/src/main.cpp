@@ -4,10 +4,11 @@
  *  Created on: Jul 18, 2015
  *      Author: thiago
  */
-#include <stdio.h>
-#include <iostream>
 
-#include "../../observer/src/Unit.h"
+#include <stdio.h>
+#include <string>
+
+#include "../../core/src/Unit.h"
 
 using com::thiagoh::Unit;
 

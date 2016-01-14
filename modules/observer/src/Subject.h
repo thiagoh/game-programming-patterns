@@ -8,7 +8,11 @@
 #ifndef SUBJECT_H_
 #define SUBJECT_H_
 
+#include <cstdio>
 #include <string>
+
+#include "../../core/src/Event.h"
+#include "../../core/src/Unit.h"
 #include "Observer.h"
 #include "ObserverNode.h"
 

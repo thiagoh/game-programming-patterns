@@ -8,9 +8,11 @@
 #ifndef OBSERVER_SRC_GRAPHICSOBSERVER_H_
 #define OBSERVER_SRC_GRAPHICSOBSERVER_H_
 
+#include <cstdio>
+
+#include "../../core/src/Event.h"
+#include "../../core/src/Unit.h"
 #include "Observer.h"
-#include "Unit.h"
-#include "Event.h"
 
 namespace com {
 namespace thiagoh {

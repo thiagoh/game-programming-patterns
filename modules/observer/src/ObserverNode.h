@@ -9,7 +9,6 @@
 #define OBSERVERNODE_H_
 
 #include "ObserverNode.h"
-
 #include "Observer.h"
 #include "Subject.h"
 

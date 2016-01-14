@@ -8,13 +8,14 @@
 #ifndef PHYSICS_H_
 #define PHYSICS_H_
 
-#include <ctime>
 #include <stdio.h>
-#include <string>
 #include <stdlib.h>
+#include <ctime>
+#include <string>
 
+#include "../../core/src/Event.h"
+#include "../../core/src/Unit.h"
 #include "Subject.h"
-#include "Unit.h"
 
 namespace com {
 namespace thiagoh {
