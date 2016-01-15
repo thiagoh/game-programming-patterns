@@ -8,13 +8,15 @@
 #ifndef STANDINGSTATE_H_
 #define STANDINGSTATE_H_
 
-#include <Input.h>
 #include <stdio.h>
+
+#include <Input.h>
 #include <State.h>
-#include <Unit.h>
 
 namespace com {
 namespace thiagoh {
+
+class Unit;
 
 class StandingState: public State {
 public:

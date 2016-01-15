@@ -11,10 +11,11 @@
 #include <stdio.h>
 #include <Input.h>
 #include <State.h>
-#include <Unit.h>
 
 namespace com {
 namespace thiagoh {
+
+class Unit;
 
 class DuckingState: public State {
 public:

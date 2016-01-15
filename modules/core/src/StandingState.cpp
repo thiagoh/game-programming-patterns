@@ -9,28 +9,33 @@
 #include <DuckingState.h>
 #include <StandingState.h>
 
+using com::thiagoh::State;
 using com::thiagoh::StandingState;
+using com::thiagoh::DuckingState;
 
 StandingState::StandingState() :
-		State() {
+      State() {
 }
 
 StandingState::~StandingState() {
 }
 
 void StandingState::enter(Unit& unit) {
-	printf("stand up!");
+   printf("stand up!\n");
+   _deltaTime = 0;
 }
 
 void StandingState::update(Unit& unit, long deltaTime) {
-	_deltaTime += deltaTime;
+   _deltaTime += deltaTime;
 }
 
 State* StandingState::handleInput(Unit& unit, Input input) {
 
-	if (Input::BUTTON_DOWN == input) {
-		return new DuckingState();
-	}
+   State* state = NULL;
 
-	return NULL;
+   if (BUTTON_DOWN == input) {
+      state = new DuckingState();
+   }
+
+   return state;
 }

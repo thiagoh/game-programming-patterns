@@ -14,7 +14,7 @@ using com::thiagoh::StandingState;
 
 Unit::Unit(std::string id) :
 		_id(id), state(0) {
-	//this->state = new StandingState();
+	this->state = new StandingState();
 }
 
 Unit::~Unit() {
