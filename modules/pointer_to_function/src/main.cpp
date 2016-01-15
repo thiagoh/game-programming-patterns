@@ -14,7 +14,12 @@ using std::string;
 using namespace com::thiagoh;
 
 int main(int argc, char **argv) {
+	
 
+	/*
+	* More about Poiter to member function at 
+	* http://www.codeguru.com/cpp/cpp/article.php/c17401/C-Tutorial-PointertoMember-Function.htm
+	*/
 	printf("\n\nBEGIN OF PROGRAM\n\n");
 
 	Foo animal("fox");
