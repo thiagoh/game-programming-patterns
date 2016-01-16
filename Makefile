@@ -5,8 +5,8 @@ MODULES_DIR = modules
 GLOBAL_INCLUDE_MODULE = core
 GLOBAL_MODULE = core
 
-EXEC_MODULES = observer state tests pointer_to_function
-MODULES = observer state tests pointer_to_function
+EXEC_MODULES = observer state tests pointer-to-function
+MODULES = observer state tests pointer-to-function
 
 ##
 ## https://gcc.gnu.org/onlinedocs/gcc-3.0/gcc_3.html#SEC11

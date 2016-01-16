@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string>
 
-#include "Foo.h"
+#include "../../pointer-to-function/src/Foo.h"
 
 using std::string;
 using namespace com::thiagoh;
