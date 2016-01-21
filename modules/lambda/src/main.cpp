@@ -41,6 +41,9 @@ int main(int argc, char **argv) {
    call(modifierLambda3);
    printf("New name is %s\n", name.c_str());
 
+   auto lambdaWithParams = [&] (int a, int b, string c) {return c + " " + std::to_string(a) + " and " + std::to_string(b);};
+   printf("New name is %s\n", lambdaWithParams(1, 2, "valores: ").c_str());
+
    printf("\n\nEND OF PROGRAM\n");
 }
 
