@@ -17,14 +17,14 @@ void call(std::function<void()> func) {
    func();
 }
 
-std::function<int()> getLambda(int ix) {
+std::function<float()> getLambda(int ix) {
 
    if (ix == 1) {
       return [=] {return 3.14;};
    } else if (ix >= 2 && ix < 10) {
       return [=] {return ix * 4;};
    } else {
-      return [=] {return ix * 7;};
+      return [=] {return ix * 13;};
    }
 }
 
@@ -61,10 +61,10 @@ int main(int argc, char **argv) {
    auto lambdaFor5 = getLambda(5);
    auto lambdaFor10 = getLambda(10);
 
-   printf("lambdaFor1 is %d\n", lambdaFor1());
-   printf("lambdaFor2 is %d\n", lambdaFor2());
-   printf("lambdaFor5 is %d\n", lambdaFor5());
-   printf("lambdaFor10 is %d\n", lambdaFor10());
+   printf("lambdaFor1 is %0.2f\n", lambdaFor1());
+   printf("lambdaFor2 is %0.2f\n", lambdaFor2());
+   printf("lambdaFor5 is %0.2f\n", lambdaFor5());
+   printf("lambdaFor10 is %0.2f\n", lambdaFor10());
 
    printf("\n\nEND OF PROGRAM\n");
 }
