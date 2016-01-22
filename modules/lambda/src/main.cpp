@@ -17,6 +17,17 @@ void call(std::function<void()> func) {
    func();
 }
 
+std::function<int()> getLambda(int ix) {
+
+   if (ix == 1) {
+      return [] {return 3.14;};
+   } else if (ix >= 2 && ix < 10) {
+      return [] {return ix * 4;};
+   } else {
+      return [] {return ix * 7;};
+   }
+}
+
 int main(int argc, char **argv) {
 
    printf("\n\nBEGIN OF PROGRAM\n\n");
@@ -41,7 +52,14 @@ int main(int argc, char **argv) {
    call(modifierLambda3);
    printf("New name is %s\n", name.c_str());
 
-   auto lambdaWithParams = [&] (int a, int b, string c) {return c + " " + std::to_string(a) + " and " + std::to_string(b);};
+   auto lambdaWithParams =
+         [&] (int a, int b, string c) {return c + " " + std::to_string(a) + " and " + std::to_string(b);};
+   printf("New name is %s\n", lambdaWithParams(1, 2, "valores: ").c_str());
+
+   auto lambdaFor1 = getLambda(1);
+   auto lambdaFor2 = getLambda(2);
+   auto lambdaFor5 = getLambda(5);
+   auto lambdaFor10 = getLambda(10);
    printf("New name is %s\n", lambdaWithParams(1, 2, "valores: ").c_str());
 
    printf("\n\nEND OF PROGRAM\n");
