@@ -20,11 +20,11 @@ void call(std::function<void()> func) {
 std::function<int()> getLambda(int ix) {
 
    if (ix == 1) {
-      return [] {return 3.14;};
+      return [=] {return 3.14;};
    } else if (ix >= 2 && ix < 10) {
-      return [] {return ix * 4;};
+      return [=] {return ix * 4;};
    } else {
-      return [] {return ix * 7;};
+      return [=] {return ix * 7;};
    }
 }
 
@@ -60,7 +60,11 @@ int main(int argc, char **argv) {
    auto lambdaFor2 = getLambda(2);
    auto lambdaFor5 = getLambda(5);
    auto lambdaFor10 = getLambda(10);
-   printf("New name is %s\n", lambdaWithParams(1, 2, "valores: ").c_str());
+
+   printf("lambdaFor1 is %d\n", lambdaFor1());
+   printf("lambdaFor2 is %d\n", lambdaFor2());
+   printf("lambdaFor5 is %d\n", lambdaFor5());
+   printf("lambdaFor10 is %d\n", lambdaFor10());
 
    printf("\n\nEND OF PROGRAM\n");
 }
