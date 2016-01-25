@@ -31,9 +31,13 @@ std::function<float()> getLambda(int ix) {
    } else {
 
       double value1 = 13.3;
-      double value2 = 3.7;
+      string name = "foo bar";
 
-      return [=] {return ix * value1 * value2;};
+      // this cannot be done because name is a local reference
+      // so when the method is over the reference may not exist anymore
+      //return [=, &name] {return ix * value1 * name.size();};
+
+      return [=] {return ix * value1 * name.size();};
    }
 }
 
