@@ -20,11 +20,20 @@ void call(std::function<void()> func) {
 std::function<float()> getLambda(int ix) {
 
    if (ix == 1) {
+
       return [=] {return 3.14;};
+
    } else if (ix >= 2 && ix < 10) {
-      return [=] {return ix * 4;};
+      int value = 4;
+
+      return [=] {return ix * value;};
+
    } else {
-      return [=] {return ix * 13;};
+
+      double value1 = 13.3;
+      double value2 = 3.7;
+
+      return [=] {return ix * value1 * value2;};
    }
 }
 
