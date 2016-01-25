@@ -32,12 +32,18 @@ std::function<float()> getLambda(int ix) {
 
       double value1 = 13.3;
       string name = "foo bar";
+      static string myStaticString = "foo static string bar";
 
       // this cannot be done because name is a local reference
       // so when the method is over the reference may not exist anymore
       //return [=, &name] {return ix * value1 * name.size();};
 
-      return [=] {return ix * value1 * name.size();};
+      // this cannot be done because myStaticString is a local static
+      // variable, so event without "&myStaticString" it will be
+      // caught by reference
+      // return [=, &myStaticString] {return ix * value1 * name.size()* myStaticString.size();};
+
+      return [=] {return ix * value1 * name.size()* myStaticString.size();}; // lambda catching myStaticString by reference
    }
 }
 
