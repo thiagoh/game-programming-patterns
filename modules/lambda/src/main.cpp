@@ -87,6 +87,7 @@ int main(int argc, char **argv) {
 
    int* p = 0;
    int x = 10;
+   p = &x;
    *p = 20;
 
    auto lambdaFor10AndP = getLambda2(10, p);
