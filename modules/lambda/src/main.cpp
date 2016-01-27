@@ -47,6 +47,11 @@ std::function<float()> getLambda(int ix) {
    }
 }
 
+std::function<float()> getLambda2(int ix, int *p) {
+
+   return [=] {return ix * (*p);}; // lambda catching myStaticString by reference
+}
+
 int main(int argc, char **argv) {
 
    printf("\n\nBEGIN OF PROGRAM\n\n");
