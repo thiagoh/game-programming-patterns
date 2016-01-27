@@ -85,10 +85,17 @@ int main(int argc, char **argv) {
    auto lambdaFor5 = getLambda(5);
    auto lambdaFor10 = getLambda(10);
 
+   int* p = 0;
+   int x = 10;
+   *p = 20;
+
+   auto lambdaFor10AndP = getLambda2(10, p);
+
    printf("lambdaFor1 is %0.2f\n", lambdaFor1());
    printf("lambdaFor2 is %0.2f\n", lambdaFor2());
    printf("lambdaFor5 is %0.2f\n", lambdaFor5());
    printf("lambdaFor10 is %0.2f\n", lambdaFor10());
+   printf("lambdaFor10AndP is %0.2f\n", lambdaFor10AndP());
 
    printf("\n\nEND OF PROGRAM\n");
 }
