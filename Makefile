@@ -19,11 +19,12 @@ MODULES = observer state tests pointer-to-function lambda
 ##
 CXX_FLAGS += -O3 -g -std=c++0x -pg -D_DEBUG -W -Wall -Werror -Wno-unused -Wno-unused-parameter
 CXX_FLAGS += -O 
+LIBS += -lcppunit
 
 _GLOBAL_SRC_DIR := $(MODULES_DIR)/$(GLOBAL_MODULE)/src
 _GLOBAL_BUILD_DIR := $(MODULES_DIR)/$(GLOBAL_MODULE)/build
 _GLOBAL_MODULE := $(MODULES_DIR)/$(GLOBAL_MODULE)/src
-_GLOBAL_INCLUDE_DIR := $(MODULES_DIR)/$(GLOBAL_INCLUDE_MODULE)/headers
+_GLOBAL_INCLUDE_DIR := /usr/include /usr/local/include $(MODULES_DIR)/$(GLOBAL_INCLUDE_MODULE)/headers
 
 _GLOBAL_INCLUDES := $(addprefix -I,$(_GLOBAL_INCLUDE_DIR))
 
@@ -109,7 +110,7 @@ $(addprefix $1, -build): $(addprefix $1, -checkdirs) $($@OBJ) $(_GLOBAL_OBJ)
 ifneq ($(strip $$($@OBJ)),)
 
 ifneq (,$(findstring $1,$(EXEC_MODULES)))	
-	g++ $(CXX_FLAGS) $($@INCLUDES) -o $($@BUILD_DIR)/$1 $($@OBJ)
+	g++ $(CXX_FLAGS) $($@INCLUDES) -o $($@BUILD_DIR)/$1 $($@OBJ) $(LIBS)
 endif # ifneq (,$(findstring $1,$(EXEC_MODULES)))
 
 endif # ifneq ($(strip $$($@OBJ)),)
