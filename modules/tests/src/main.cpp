@@ -123,19 +123,23 @@ public:
 
 int main(int argc, char **argv) {
 
-   printf("\n\nBEGIN OF PROGRAM\n\n");
-
-   CppUnit::TestSuite suite("Simple Tests");
-   suite.addTest(new CppUnit::TestCaller<GeneralTest>("test1", &GeneralTest::test1));
-   suite.addTest(new CppUnit::TestCaller<GeneralTest>("test2", &GeneralTest::test2));
-
    // Create the event manager and test controller
    CppUnit::TestResult controller;
    CppUnit::TestResultCollector result;
    controller.addListener(&result);
 
+   // ####
+   // #### Can do it this way
+   // ####
+   CppUnit::TestSuite suite("Simple Tests");
+   suite.addTest(new CppUnit::TestCaller<GeneralTest>("test1", &GeneralTest::test1));
+   suite.addTest(new CppUnit::TestCaller<GeneralTest>("test2", &GeneralTest::test2));
+
    suite.run(&controller);
 
+   // ####
+   // #### Or this way
+   // ####
    // Add the top suite to the test runner
    CppUnit::TestRunner runner;
    runner.addTest(new CppUnit::TestCaller<GeneralTest>("test1", &GeneralTest::test1));
@@ -144,7 +148,5 @@ int main(int argc, char **argv) {
    // Print test in a compiler compatible format.
    CppUnit::CompilerOutputter outputter(&result, CPPUNIT_NS::stdCOut());
    outputter.write();
-
-   printf("\n\nEND OF PROGRAM\n");
 }
 
