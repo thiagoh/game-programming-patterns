@@ -84,22 +84,61 @@ public:
          printf("unit2 pointer is null\n");
       }
    }
+
+   void test2() {
+
+      Unit* unit1 = new Unit("UNIT_NAME 1");
+      Unit* unit2 = unit1;
+
+      /*
+       * http://stackoverflow.com/a/2910694/889213
+       *
+       * calling delete on a pointer does not set the pointer to NULL
+       * it still points to the address of memory that previously was allocated
+       */
+
+      delete unit1;
+
+      /*
+       * A pointer to memory that is no longer allocated is called a
+       * pointer and accessing it will usually cause strange program behaviour
+       * and crashes, since its contents are probably not what you expect
+       */
+      unit1; // dangling pointer
+      unit2; // dangling pointer
+
+      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit1 != 0);
+      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit2 != 0);
+
+      unit1 = NULL; // not a dangling pointer anymore
+      unit2 = NULL; // not a dangling pointer anymore
+
+      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit1 == 0);
+      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit2 == 0);
+
+      CPPUNIT_ASSERT_MESSAGE("Should not point to NULL", unit1 == NULL);
+      CPPUNIT_ASSERT_MESSAGE("Should not point to NULL", unit2 == NULL);
+   }
 };
 
 int main(int argc, char **argv) {
 
    printf("\n\nBEGIN OF PROGRAM\n\n");
 
-   CppUnit::TestCaller<GeneralTest> * test = new CppUnit::TestCaller<GeneralTest>("testEquality", &GeneralTest::test1);
+   CppUnit::TestSuite suite("Simple Tests");
+   suite.addTest(new CppUnit::TestCaller<GeneralTest>("test1", &GeneralTest::test1));
+   suite.addTest(new CppUnit::TestCaller<GeneralTest>("test2", &GeneralTest::test2));
 
    // Create the event manager and test controller
    CppUnit::TestResult controller;
    CppUnit::TestResultCollector result;
    controller.addListener(&result);
 
+   suite.run(&controller);
+
    // Add the top suite to the test runner
    CppUnit::TestRunner runner;
-   runner.addTest(test);
+   runner.addTest(new CppUnit::TestCaller<GeneralTest>("test1", &GeneralTest::test1));
    runner.run(controller);
 
    // Print test in a compiler compatible format.
