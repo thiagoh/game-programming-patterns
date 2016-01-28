@@ -72,8 +72,8 @@ public:
       unit1 = NULL; // not a dangling pointer anymore
       unit2 = NULL; // not a dangling pointer anymore
 
-      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit1 != 0);
-      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit2 != 0);
+      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit1 == 0);
+      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit2 == 0);
 
       printf("unit1 address: %p\n", unit1);
       printf("unit2 address: %p\n", unit2);
