@@ -34,7 +34,7 @@ void test1() {
 	delete unit1;
 
 	/*
-	 * A pointer to memory that is no longer allocated is called a dangling
+	 * A pointer to memory that is no longer allocated is called a
 	 * pointer and accessing it will usually cause strange program behaviour
 	 * and crashes, since its contents are probably not what you expect
 	 */
