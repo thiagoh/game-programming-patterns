@@ -43,6 +43,8 @@ public:
          return *this;
       }
 
+      printf("Unit %s became Unit %s\n", _name.c_str(), rhs._name.c_str());
+
       _name = rhs._name;
 
       printf("Unit operator= constructor\n");
@@ -133,6 +135,8 @@ public:
 
       printf("unit1 address: %p\n", unit1);
       printf("unit2 address: %p\n", unit2);
+
+      printf("test_delete_copied_pointer ended\n\n");
    }
 
    void test_delete_reference_pointer() {
