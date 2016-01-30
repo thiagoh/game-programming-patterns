@@ -18,6 +18,7 @@ Unit::Unit(std::string id) :
 }
 
 Unit::~Unit() {
+
 }
 
 void Unit::handleInput(Input input) {

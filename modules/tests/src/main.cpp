@@ -18,11 +18,25 @@
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
 
-#include <Unit.h>
 #include <cstdio>
 #include <string>
 
-using com::thiagoh::Unit;
+class Unit {
+public:
+   Unit(std::string name) :
+         _name(name) {
+   }
+   ~Unit() {
+      printf("Unit %s died", _name.c_str());
+   }
+
+   std::string id() {
+      return _name;
+   }
+
+private:
+   std::string _name;
+};
 
 class GeneralTest: public CppUnit::TestFixture {
 
@@ -118,13 +132,13 @@ private:
        * and crashes, since its contents are probably not what you expect
        */
       unit1; // dangling pointer
-      unit2;// dangling pointer
+      unit2; // dangling pointer
 
       CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit1 != 0);
       CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit2 != 0);
 
-      unit1 = NULL;// not a dangling pointer anymore
-      unit2 = NULL;// not a dangling pointer anymore
+      unit1 = NULL; // not a dangling pointer anymore
+      unit2 = NULL; // not a dangling pointer anymore
 
       CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit1 == 0);
       CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit2 == 0);

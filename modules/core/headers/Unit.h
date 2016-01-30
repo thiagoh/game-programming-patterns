@@ -26,10 +26,12 @@ public:
 		return _id;
 	}
 
+	// cast to string
 	operator std::string() const {
 		return _id;
 	}
 
+	// cast to char*
 	operator const char*() const {
 		return _id.c_str();
 	}
