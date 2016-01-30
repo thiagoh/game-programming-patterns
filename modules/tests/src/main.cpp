@@ -54,7 +54,7 @@ public:
 
       printf("test1 started\n\n");
 
-      Unit* unit1 = new Unit("UNIT_NAME 1");
+      Unit* unit1 = new Unit("UNIT_NAME test1");
       Unit* unit2 = unit1;
 
       printf("unit1 pointer: %s\n", unit1->id().c_str());
@@ -105,7 +105,7 @@ public:
 
       printf("test2 started\n\n");
 
-      Unit* unit1 = new Unit("UNIT_NAME 1");
+      Unit* unit1 = new Unit("UNIT_NAME test2");
       Unit* unit2 = unit1;
 
       _test2(unit1, unit2);
