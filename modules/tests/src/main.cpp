@@ -25,15 +25,15 @@ class Unit {
 public:
 
    Unit(std::string name) :
-         _name(name) {
+         _name("") {
 
-      init();
+      init(name);
       printf("Unit string constructor\n");
    }
 
    Unit(const Unit& copy) :
-         _name(copy._name) {
-      init();
+         _name("") {
+      init(copy._name);
       printf("Unit copy constructor\n");
    }
 
@@ -61,7 +61,14 @@ public:
 private:
    std::string _name;
 
-   void init() {
+   static int counter() {
+      static int c = 0;
+      return ++c;
+   }
+
+   void init(std::string name) {
+
+      _name = name + "_" + std::to_string(counter());
       printf("Unit %s created\n", _name.c_str());
    }
 };
@@ -88,13 +95,14 @@ public:
       printf("test_delete_copied_pointer started\n");
 
       printf("\n1: ");
-      Unit* unit1 = new Unit("UNIT_NAME test_delete_copied_pointer");
+      Unit* unit1 = new Unit("simple");
       printf("\n2: ");
       Unit* unit2 = unit1;
       printf("\n3: ");
       Unit unit3(*unit2);
       printf("\n4: ");
-      Unit unit4 = *unit2;
+      Unit unit4("");
+      unit4 = *unit2;
 
       printf("\n");
       /*
@@ -125,12 +133,6 @@ public:
 
       printf("unit1 address: %p\n", unit1);
       printf("unit2 address: %p\n", unit2);
-
-      if (unit2 != NULL) {
-         printf("unit2 pointer: %s\n", unit2->id().c_str());
-      } else {
-         printf("unit2 pointer is null\n");
-      }
    }
 
    void test_delete_reference_pointer() {
