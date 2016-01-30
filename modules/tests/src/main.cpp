@@ -37,6 +37,18 @@ public:
       printf("Unit copy constructor\n");
    }
 
+
+   Unit& operator=(const std::string name) {
+
+      printf("Unit %s became Unit %s\n", _name.c_str(), name.c_str());
+
+      _name = name;
+
+      printf("Unit operator= std::string implicit cast\n");
+
+      return *this;
+   }
+
    Unit& operator=(const Unit& rhs) {
 
       if (this == &rhs) {
@@ -105,6 +117,8 @@ public:
       printf("\n4: ");
       Unit unit4("");
       unit4 = *unit2;
+      printf("\n5: ");
+      unit4 = "cast";
 
       printf("\n");
       /*
