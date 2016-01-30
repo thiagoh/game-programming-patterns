@@ -90,6 +90,13 @@ public:
       Unit* unit1 = new Unit("UNIT_NAME 1");
       Unit* unit2 = unit1;
 
+      _test2(unit1, unit2);
+   }
+
+private:
+
+   void _test2(Unit* unit1, Unit* unit2) {
+
       /*
        * http://stackoverflow.com/a/2910694/889213
        *
@@ -105,13 +112,13 @@ public:
        * and crashes, since its contents are probably not what you expect
        */
       unit1; // dangling pointer
-      unit2; // dangling pointer
+      unit2;// dangling pointer
 
       CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit1 != 0);
       CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit2 != 0);
 
-      unit1 = NULL; // not a dangling pointer anymore
-      unit2 = NULL; // not a dangling pointer anymore
+      unit1 = NULL;// not a dangling pointer anymore
+      unit2 = NULL;// not a dangling pointer anymore
 
       CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit1 == 0);
       CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit2 == 0);
