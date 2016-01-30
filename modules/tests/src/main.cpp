@@ -27,7 +27,7 @@ public:
          _name(name) {
    }
    ~Unit() {
-      printf("Unit %s died", _name.c_str());
+      printf("Unit %s died\n", _name.c_str());
    }
 
    std::string id() const {
@@ -51,6 +51,8 @@ public:
    }
 
    void test1() {
+
+      printf("test1 started\n\n");
 
       Unit* unit1 = new Unit("UNIT_NAME 1");
       Unit* unit2 = unit1;
@@ -101,6 +103,8 @@ public:
 
    void test2() {
 
+      printf("test2 started\n\n");
+
       Unit* unit1 = new Unit("UNIT_NAME 1");
       Unit* unit2 = unit1;
 
@@ -111,6 +115,8 @@ public:
 
       CPPUNIT_ASSERT_MESSAGE("Should not point to NULL", unit1 == NULL);
       CPPUNIT_ASSERT_MESSAGE("Should not point to NULL", unit2 == NULL);
+
+      printf("test2 ended\n\n");
    }
 
 private:
