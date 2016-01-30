@@ -23,9 +23,29 @@
 
 class Unit {
 public:
+
    Unit(std::string name) :
          _name(name) {
+
+      init();
+      printf("Unit string constructor\n");
    }
+
+   Unit(const Unit& copy) :
+         _name(copy._name) {
+      init();
+      printf("Unit copy constructor\n");
+   }
+
+   Unit& operator=(const Unit& lhs) {
+
+      _name = lhs._name;
+
+      printf("Unit operator= constructor\n");
+
+      return *this;
+   }
+
    ~Unit() {
       printf("Unit %s died\n", _name.c_str());
    }
@@ -36,6 +56,10 @@ public:
 
 private:
    std::string _name;
+
+   void init() {
+      printf("Unit %s created\n", _name.c_str());
+   }
 };
 
 class GeneralTest: public CppUnit::TestFixture {
@@ -50,20 +74,23 @@ public:
 
    }
 
+   void test_generic() {
+
+      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", true);
+   }
+
    void test_delete_copied_pointer() {
 
-      printf("test_delete_copied_pointer started\n\n");
+      printf("test_delete_copied_pointer started\n");
 
+      printf("\n1: ");
       Unit* unit1 = new Unit("UNIT_NAME test_delete_copied_pointer");
+      printf("\n2: ");
       Unit* unit2 = unit1;
-
-      printf("unit1 pointer: %s\n", unit1->id().c_str());
-
-      if (unit2 != NULL) {
-         printf("unit2 pointer: %s\n", unit2->id().c_str());
-      } else {
-         printf("unit2 pointer is null\n");
-      }
+      printf("\n3: ");
+      Unit unit3(*unit2);
+      printf("\n4: ");
+      Unit unit4 = *unit2;
 
       /*
        * http://stackoverflow.com/a/2910694/889213
@@ -165,8 +192,11 @@ int main(int argc, char **argv) {
    // #### Can do it this way
    // ####
    CppUnit::TestSuite suite("Simple Tests");
-   suite.addTest(new CppUnit::TestCaller<GeneralTest>("test_delete_copied_pointer", &GeneralTest::test_delete_copied_pointer));
-   suite.addTest(new CppUnit::TestCaller<GeneralTest>("test_delete_reference_pointer", &GeneralTest::test_delete_reference_pointer));
+   suite.addTest(
+         new CppUnit::TestCaller<GeneralTest>("test_delete_copied_pointer", &GeneralTest::test_delete_copied_pointer));
+   suite.addTest(
+         new CppUnit::TestCaller<GeneralTest>("test_delete_reference_pointer",
+               &GeneralTest::test_delete_reference_pointer));
 
    suite.run(&controller);
 
@@ -175,7 +205,7 @@ int main(int argc, char **argv) {
    // ####
    // Add the top suite to the test runner
    CppUnit::TestRunner runner;
-   runner.addTest(new CppUnit::TestCaller<GeneralTest>("test_delete_copied_pointer", &GeneralTest::test_delete_copied_pointer));
+   runner.addTest(new CppUnit::TestCaller<GeneralTest>("test_generic", &GeneralTest::test_generic));
    runner.run(controller);
 
    // Print test in a compiler compatible format.
