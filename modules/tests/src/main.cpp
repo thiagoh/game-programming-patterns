@@ -30,7 +30,7 @@ public:
       printf("Unit %s died", _name.c_str());
    }
 
-   std::string id() {
+   std::string id() const {
       return _name;
    }
 
