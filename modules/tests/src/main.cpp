@@ -91,6 +91,12 @@ public:
       Unit* unit2 = unit1;
 
       _test2(unit1, unit2);
+
+      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit1 == 0);
+      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit2 == 0);
+
+      CPPUNIT_ASSERT_MESSAGE("Should not point to NULL", unit1 == NULL);
+      CPPUNIT_ASSERT_MESSAGE("Should not point to NULL", unit2 == NULL);
    }
 
 private:
