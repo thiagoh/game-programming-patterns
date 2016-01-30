@@ -37,9 +37,13 @@ public:
       printf("Unit copy constructor\n");
    }
 
-   Unit& operator=(const Unit& lhs) {
+   Unit& operator=(const Unit& rhs) {
 
-      _name = lhs._name;
+      if (this == &rhs) {
+         return *this;
+      }
+
+      _name = rhs._name;
 
       printf("Unit operator= constructor\n");
 
@@ -92,6 +96,7 @@ public:
       printf("\n4: ");
       Unit unit4 = *unit2;
 
+      printf("\n");
       /*
        * http://stackoverflow.com/a/2910694/889213
        *
