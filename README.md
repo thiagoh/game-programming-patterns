@@ -10,3 +10,9 @@ You must install CppUnit for the tests
 make clean
 make all
 ```
+
+## Run
+
+```
+./modules/tests/build/tests
+```
