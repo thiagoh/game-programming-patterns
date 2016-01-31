@@ -178,13 +178,14 @@ public:
       Unit* unit1 = new Unit("UNIT_NAME test_delete_reference_pointer");
       Unit* unit2 = unit1;
 
+      // unit1 and unit2 are copied when method is called
       _test_delete_copy_pointer(unit1, unit2);
 
-      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit1 == 0);
-      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit2 == 0);
+      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit1 != 0);
+      CPPUNIT_ASSERT_MESSAGE("Should not point to 0", unit2 != 0);
 
-      CPPUNIT_ASSERT_MESSAGE("Should not point to NULL", unit1 == NULL);
-      CPPUNIT_ASSERT_MESSAGE("Should not point to NULL", unit2 == NULL);
+      CPPUNIT_ASSERT_MESSAGE("Should not point to NULL", unit1 != NULL);
+      CPPUNIT_ASSERT_MESSAGE("Should not point to NULL", unit2 != NULL);
 
       printf("test_delete_reference_pointer ended\n\n");
    }
