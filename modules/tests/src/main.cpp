@@ -18,15 +18,82 @@
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
 
-#include <stdio.h>
-#include <execinfo.h>
-#include <signal.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 #include <cstdio>
 #include <string>
 #include <vector>
+
+//#include <stdio.h>
+//#include <execinfo.h>
+//#include <signal.h>
+//#include <stdlib.h>
+//#include <unistd.h>
+//void handler(int sig) {
+//   void *array[10];
+//   size_t size;
+//
+//   // get void*'s for all entries on the stack
+//   size = backtrace(array, 10);
+//
+//   // print out all the frames to stderr
+//   fprintf(stderr, "Error: signal %d:\n", sig);
+//   backtrace_symbols_fd(array, size, STDERR_FILENO);
+//   exit(1);
+//}
+
+#include <execinfo.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ucontext.h>
+#include <unistd.h>
+
+/* This structure mirrors the one found in /usr/include/asm/ucontext.h */
+typedef struct _sig_ucontext {
+   unsigned long uc_flags;
+   struct ucontext *uc_link;
+   stack_t uc_stack;
+   struct sigcontext uc_mcontext;
+   sigset_t uc_sigmask;
+} sig_ucontext_t;
+
+void crit_err_hdlr(int sig_num, siginfo_t * info, void * ucontext) {
+   void * array[50];
+   void * caller_address;
+   char ** messages;
+   int size, i;
+   sig_ucontext_t * uc;
+
+   uc = (sig_ucontext_t *) ucontext;
+
+   /* Get the address at the time the signal was raised */
+#if defined(__i386__) // gcc specific
+   caller_address = (void *) uc->uc_mcontext.eip; // EIP: x86 specific
+#elif defined(__x86_64__) // gcc specific
+   caller_address = (void *) uc->uc_mcontext.rip; // RIP: x86_64 specific
+#else
+#error Unsupported architecture. // TODO: Add support for other arch.
+#endif
+
+   fprintf(stderr, "signal %d (%s), address is %p from %p\n", sig_num, strsignal(sig_num), info->si_addr,
+         (void *) caller_address);
+
+   size = backtrace(array, 50);
+
+   /* overwrite sigaction with caller's address */
+   array[1] = caller_address;
+
+   messages = backtrace_symbols(array, size);
+
+   /* skip first stack frame (points here) */
+   for (i = 1; i < size && messages != NULL; ++i) {
+      fprintf(stderr, "[bt]: (%d) %s\n", i, messages[i]);
+   }
+
+   free(messages);
+
+   exit(EXIT_FAILURE);
+}
 
 class Unit {
 public:
@@ -318,22 +385,21 @@ private:
    }
 };
 
-void handler(int sig) {
-   void *array[10];
-   size_t size;
-
-   // get void*'s for all entries on the stack
-   size = backtrace(array, 10);
-
-   // print out all the frames to stderr
-   fprintf(stderr, "Error: signal %d:\n", sig);
-   backtrace_symbols_fd(array, size, STDERR_FILENO);
-   exit(1);
-}
-
 int main(int argc, char **argv) {
 
-   signal(SIGSEGV, handler);   // install our handler
+   //signal(SIGSEGV, handler);   // install our handler
+
+   struct sigaction sigact;
+
+   sigact.sa_sigaction = crit_err_hdlr;
+   sigact.sa_flags = SA_RESTART | SA_SIGINFO;
+
+   if (sigaction(SIGSEGV, &sigact, (struct sigaction *) NULL) != 0) {
+      fprintf(stderr, "error setting signal handler for %d (%s)\n",
+      SIGSEGV, strsignal(SIGSEGV));
+
+      exit(EXIT_FAILURE);
+   }
 
    // Create the event manager and test controller
    CppUnit::TestResult controller;
@@ -365,5 +431,7 @@ int main(int argc, char **argv) {
    // Print test in a compiler compatible format.
    CppUnit::CompilerOutputter outputter(&result, CPPUNIT_NS::stdCOut());
    outputter.write();
+
+   exit(EXIT_SUCCESS);
 }
 
