@@ -22,23 +22,41 @@
 #include <string>
 #include <vector>
 
-//#include <stdio.h>
-//#include <execinfo.h>
-//#include <signal.h>
-//#include <stdlib.h>
-//#include <unistd.h>
-//void handler(int sig) {
-//   void *array[10];
-//   size_t size;
-//
-//   // get void*'s for all entries on the stack
-//   size = backtrace(array, 10);
-//
-//   // print out all the frames to stderr
-//   fprintf(stderr, "Error: signal %d:\n", sig);
-//   backtrace_symbols_fd(array, size, STDERR_FILENO);
-//   exit(1);
-//}
+#ifndef FULL_HANDLER
+#define FULL_HANDLER 1
+#endif
+
+#ifndef SIMPLE_HANDLER
+#define SIMPLE_HANDLER 2
+#endif
+
+#ifndef ERROR_HANDLER
+#define ERROR_HANDLER FULL_HANDLER
+#endif
+
+#if ERROR_HANDLER == SIMPLE_HANDLER
+
+#include <stdio.h>
+#include <execinfo.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+void handler(int sig) {
+   void *array[10];
+   size_t size;
+
+   // get void*'s for all entries on the stack
+   size = backtrace(array, 10);
+
+   // print out all the frames to stderr
+   fprintf(stderr, "Error: signal %d:\n", sig);
+   backtrace_symbols_fd(array, size, STDERR_FILENO);
+   exit(1);
+}
+#endif
+
+#if ERROR_HANDLER == FULL_HANDLER
 
 #include <execinfo.h>
 #include <signal.h>
@@ -55,7 +73,7 @@ typedef struct _sig_ucontext {
    stack_t uc_stack;
    struct sigcontext uc_mcontext;
    sigset_t uc_sigmask;
-} sig_ucontext_t;
+}sig_ucontext_t;
 
 void crit_err_hdlr(int sig_num, siginfo_t * info, void * ucontext) {
    void * array[50];
@@ -94,6 +112,8 @@ void crit_err_hdlr(int sig_num, siginfo_t * info, void * ucontext) {
 
    exit(EXIT_FAILURE);
 }
+
+#endif /* ERROR_HANDLER == SIMPLE_HANDLER */
 
 class Unit {
 public:
@@ -385,9 +405,12 @@ private:
    }
 };
 
-int main(int argc, char **argv) {
+void handler_signal() {
+#if ERROR_HANDLER == SIMPLE_HANDLER
 
-   //signal(SIGSEGV, handler);   // install our handler
+   signal(SIGSEGV, handler);
+
+#elif ERROR_HANDLER == FULL_HANDLER
 
    struct sigaction sigact;
 
@@ -395,11 +418,15 @@ int main(int argc, char **argv) {
    sigact.sa_flags = SA_RESTART | SA_SIGINFO;
 
    if (sigaction(SIGSEGV, &sigact, (struct sigaction *) NULL) != 0) {
-      fprintf(stderr, "error setting signal handler for %d (%s)\n",
-      SIGSEGV, strsignal(SIGSEGV));
-
+      fprintf(stderr, "error setting signal handler for %d (%s)\n", SIGSEGV, strsignal(SIGSEGV));
       exit(EXIT_FAILURE);
    }
+#endif
+}
+
+int main(int argc, char **argv) {
+
+   handler_signal();
 
    // Create the event manager and test controller
    CppUnit::TestResult controller;
