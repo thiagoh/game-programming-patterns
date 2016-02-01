@@ -25,18 +25,18 @@ class Unit {
 public:
 
    Unit(std::string name) :
-         _name("") {
+         _name(""), _phones(0) {
 
-      init(name);
+      init(name, std::vector<std::string>());
       printf("Unit string constructor\n");
    }
 
    Unit(const Unit& copy) :
-         _name("") {
-      init(copy._name);
+         _name(""), _phones(0) {
+
+      init(copy._name, copy._phones);
       printf("Unit copy constructor\n");
    }
-
 
    Unit& operator=(const std::string name) {
 
@@ -72,17 +72,29 @@ public:
       return _name;
    }
 
+   void phones(const std::vector<std::string> phoneNumbers) {
+
+      std::vector<std::string>::const_iterator i1 = _phones.begin();
+      for (std::vector<std::string>::const_iterator i2 = phoneNumbers.begin(); i2 != phoneNumbers.end(); i2++, i1++) {
+         _phones.insert(i1, *i2);
+      }
+   }
+
 private:
    std::string _name;
+   static const int FAMILY_NAMES = 3;
+   std::vector<std::string> _phones;
 
    static int counter() {
       static int c = 0;
       return ++c;
    }
 
-   void init(std::string name) {
+   void init(std::string name, const std::vector<std::string> phoneNumbers) {
 
       _name = name + "_" + std::to_string(counter());
+      phones(phoneNumbers);
+
       printf("Unit %s created\n", _name.c_str());
    }
 };
