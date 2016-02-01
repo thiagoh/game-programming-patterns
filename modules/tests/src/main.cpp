@@ -20,19 +20,20 @@
 
 #include <cstdio>
 #include <string>
+#include <vector>
 
 class Unit {
 public:
 
    Unit(std::string name) :
-         _name(""), _phones(0) {
+         _name(""), _phones(std::vector<std::string>()) {
 
       init(name, std::vector<std::string>());
       printf("Unit string constructor\n");
    }
 
    Unit(const Unit& copy) :
-         _name(""), _phones(0) {
+         _name(""), _phones(std::vector<std::string>()) {
 
       init(copy._name, copy._phones);
       printf("Unit copy constructor\n");
@@ -72,11 +73,35 @@ public:
       return _name;
    }
 
+   std::string toString() const {
+
+      std::string str(_name);
+
+      str.append(". Phones: ");
+
+      for (std::vector<std::string>::const_iterator i2 = _phones.begin(); i2 != _phones.end(); i2++) {
+         if (i2 != _phones.begin()) {
+            str.append(", ");
+         }
+         str.append(*i2);
+      }
+
+      return str;
+   }
+
    void phones(const std::vector<std::string> &phoneNumbers) {
 
-      std::vector<std::string>::const_iterator i1 = _phones.begin();
-      for (std::vector<std::string>::const_iterator i2 = phoneNumbers.begin(); i2 != phoneNumbers.end(); i2++, i1++) {
+      while (_phones.size() < 3) {
+         _phones.push_back("");
+      }
+
+      std::vector<std::string>::iterator i1 = _phones.begin();
+      std::vector<std::string>::const_iterator i2 = phoneNumbers.begin();
+
+      for (; i2 != phoneNumbers.end(); i2++) {
+         _phones.erase(i1);
          _phones.insert(i1, *i2);
+         i1++;
       }
    }
 
@@ -131,7 +156,25 @@ public:
       unit4 = *unit2;
       printf("\n5: ");
       unit4 = "cast";
+      printf("\n");
 
+      std::vector<std::string> phones1;
+      phones1.push_back("81 9 9999 9991");
+      phones1.push_back("81 9 9999 9992");
+      phones1.push_back("81 9 9999 9993");
+
+      std::vector<std::string> phones2;
+      phones2.push_back("81 9 9999 9995");
+      phones2.push_back("81 9 9999 9996");
+      phones2.push_back("81 9 9999 9997");
+
+      unit1->phones(phones1);
+      unit4.phones(phones2);
+
+      printf("unit1 toString: %s\n", unit1->toString().c_str());
+      printf("unit2 toString: %s\n", unit2->toString().c_str());
+      printf("unit3 toString: %s\n", unit3.toString().c_str());
+      printf("unit4 toString: %s\n", unit4.toString().c_str());
       printf("\n");
       /*
        * http://stackoverflow.com/a/2910694/889213
