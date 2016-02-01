@@ -72,7 +72,7 @@ public:
       return _name;
    }
 
-   void phones(const std::vector<std::string> phoneNumbers) {
+   void phones(const std::vector<std::string> &phoneNumbers) {
 
       std::vector<std::string>::const_iterator i1 = _phones.begin();
       for (std::vector<std::string>::const_iterator i2 = phoneNumbers.begin(); i2 != phoneNumbers.end(); i2++, i1++) {
@@ -90,7 +90,7 @@ private:
       return ++c;
    }
 
-   void init(std::string name, const std::vector<std::string> phoneNumbers) {
+   void init(std::string name, const std::vector<std::string> &phoneNumbers) {
 
       _name = name + "_" + std::to_string(counter());
       phones(phoneNumbers);
