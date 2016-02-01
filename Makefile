@@ -17,7 +17,8 @@ MODULES = observer state tests pointer-to-function lambda
 ## beginning `-Wno-' to turn off warnings; for example, `-Wno-implicit'. 
 ## This manual lists only one of the two forms, whichever is not the default.
 ##
-CXX_FLAGS += -O3 -g -std=c++0x -pg -D_DEBUG -W -Wall -Werror -Wno-unused -Wno-unused-parameter
+CXX_FLAGS += -O3 -std=c++0x -pg -D_DEBUG -W -Wall -Werror -Wno-unused -Wno-unused-parameter
+CXX_FLAGS += -g -rdynamic 
 CXX_FLAGS += -O 
 LIBS += -lcppunit
 

@@ -18,6 +18,12 @@
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
 
+#include <stdio.h>
+#include <execinfo.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -99,7 +105,7 @@ public:
       std::vector<std::string>::const_iterator i2 = phoneNumbers.begin();
 
       for (; i2 != phoneNumbers.end(); i2++) {
-         _phones.erase(i1);
+         //_phones.erase(i1);
          _phones.insert(i1, *i2);
          i1++;
       }
@@ -312,7 +318,22 @@ private:
    }
 };
 
+void handler(int sig) {
+   void *array[10];
+   size_t size;
+
+   // get void*'s for all entries on the stack
+   size = backtrace(array, 10);
+
+   // print out all the frames to stderr
+   fprintf(stderr, "Error: signal %d:\n", sig);
+   backtrace_symbols_fd(array, size, STDERR_FILENO);
+   exit(1);
+}
+
 int main(int argc, char **argv) {
+
+   signal(SIGSEGV, handler);   // install our handler
 
    // Create the event manager and test controller
    CppUnit::TestResult controller;
